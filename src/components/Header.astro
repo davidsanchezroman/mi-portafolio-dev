@@ -1,11 +1,23 @@
-<header class="bg-dark-surface text-dark-text p-4 shadow-lg
-               border-b border-dark-border">
+---
+---
+
+<header id="main-header" class="bg-dark-surface text-dark-text p-4 shadow-lg
+                             border-b border-dark-border
+                             fixed w-full top-0 left-0 z-50
+                             transition-all duration-300 ease-in-out">
   <div class="container mx-auto flex justify-between items-center">
     <a href="/" class="text-2xl font-bold text-accent-blue
-                       hover:text-accent-blue-dark transition-colors duration-200">
+                        hover:text-accent-blue-dark transition-colors duration-200">
       Mi Portafolio Dev
     </a>
-    <nav>
+
+    <button id="menu-button" class="md:hidden text-dark-text focus:outline-none">
+      <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+
+    <nav class="hidden md:block">
       <ul class="flex space-x-6">
         <li><a href="/" class="hover:text-accent-blue transition-colors duration-200">Inicio</a></li>
         <li><a href="/proyectos" class="hover:text-accent-blue transition-colors duration-200">Proyectos</a></li>
@@ -14,4 +26,90 @@
       </ul>
     </nav>
   </div>
+
+  <nav id="mobile-menu" class="fixed top-0 right-[-100%] h-full w-64 bg-dark-surface
+                                shadow-lg p-6 transform transition-transform duration-300 ease-in-out
+                                md:hidden z-50 flex flex-col justify-center items-center">
+    <button id="close-menu-button" class="absolute top-4 right-4 text-dark-text focus:outline-none">
+      <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    <ul class="flex flex-col space-y-6 text-xl">
+      <li><a href="/" class="hover:text-accent-blue transition-colors duration-200" onclick="document.getElementById('mobile-menu').classList.remove('translate-x-[-100%]')">Inicio</a></li>
+      <li><a href="/proyectos" class="hover:text-accent-blue transition-colors duration-200" onclick="document.getElementById('mobile-menu').classList.remove('translate-x-[-100%]')">Proyectos</a></li>
+      <li><a href="/sobre-mi" class="hover:text-accent-blue transition-colors duration-200" onclick="document.getElementById('mobile-menu').classList.remove('translate-x-[-100%]')">Sobre Mí</a></li>
+      <li><a href="/contacto" class="hover:text-accent-blue transition-colors duration-200" onclick="document.getElementById('mobile-menu').classList.remove('translate-x-[-100%]')">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
 </header>
+
+<script is:inline>
+  const mainHeader = document.getElementById('main-header');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuButton = document.getElementById('menu-button');
+  const closeMenuButton = document.getElementById('close-menu-button');
+  const menuOverlay = document.getElementById('menu-overlay');
+
+  // Función para manejar el scroll del Header
+  window.addEventListener('scroll', () => {
+    // Solo aplicar el efecto de scroll en escritorio (md y arriba)
+    if (window.innerWidth >= 768) { // 768px es el breakpoint por defecto de Tailwind para 'md'
+      if (window.scrollY > 80) { // Ajusta este valor según qué tan pronto quieres que aparezca
+        mainHeader.classList.add('scrolled-header');
+      } else {
+        mainHeader.classList.remove('scrolled-header');
+      }
+    } else {
+      mainHeader.classList.remove('scrolled-header'); // Quitar la clase en móvil
+    }
+  });
+
+  // Toggle del menú móvil
+  menuButton.addEventListener('click', () => {
+    mobileMenu.classList.add('translate-x-[-100%]'); // Muestra el menú moviéndolo desde la derecha
+    menuOverlay.classList.remove('hidden');
+    document.body.style.overflow = 'hidden'; // Evita el scroll del body
+  });
+
+  closeMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.remove('translate-x-[-100%]'); // Oculta el menú
+    menuOverlay.classList.add('hidden');
+    document.body.style.overflow = ''; // Restaura el scroll del body
+  });
+
+  menuOverlay.addEventListener('click', () => {
+    mobileMenu.classList.remove('translate-x-[-100%]'); // Oculta el menú al hacer clic en el overlay
+    menuOverlay.classList.add('hidden');
+    document.body.style.overflow = ''; // Restaura el scroll del body
+  });
+
+  // Cerrar menú móvil si se redimensiona la ventana a escritorio
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 768) {
+      mobileMenu.classList.remove('translate-x-[-100%]');
+      menuOverlay.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+  });
+</script>
+
+<style is:global>
+  /* Estilos para el Header flotante */
+  .scrolled-header {
+    @apply mt-4 rounded-xl mx-auto max-w-7xl shadow-2xl; /* Separado del margen superior, centrado, con sombra */
+    width: calc(100% - 2rem); /* Ajuste para el margen lateral */
+  }
+
+  /* Asegurarse de que el menú lateral esté fuera de la pantalla por defecto */
+  #mobile-menu {
+    transform: translateX(100%); /* Inicialmente oculto a la derecha */
+  }
+
+  /* La clase translate-x-[-100%] lo mueve a la posición visible */
+  #mobile-menu.translate-x-[-100%] {
+    transform: translateX(0);
+  }
+</style>
