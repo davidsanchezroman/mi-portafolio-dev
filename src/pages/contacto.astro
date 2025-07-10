@@ -91,31 +91,41 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </section>
 
   <!-- SCRIPT -->
-  <script>
+  <script type="module">
     const form = document.getElementById('contact-form');
     const modal = document.getElementById('success-modal');
 
-    form.addEventListener('submit', async function (e) {
-      e.preventDefault();
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-      const formData = new FormData(form);
-
-      try {
-        const response = await fetch("/", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams(formData).toString(),
-        });
-
-        if (response.ok) {
-          form.reset();
-          modal.classList.remove('hidden');
-        } else {
-          alert('Hubo un problema al enviar el formulario.');
+        const formData = new FormData(form);
+        const data = new URLSearchParams();
+        for (const [key, value] of formData.entries()) {
+          data.append(key, value.toString());
         }
-      } catch (error) {
-        alert('Error al enviar el formulario.');
-      }
-    });
+
+        try {
+          const response = await fetch("/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: data.toString(),
+          });
+
+          if (response.ok && modal) {
+            form.reset();
+            modal.classList.remove("hidden");
+          } else {
+            alert("Hubo un problema al enviar el formulario.");
+          }
+        } catch (error) {
+          console.error(error);
+          alert("Error al enviar el formulario.");
+        }
+      });
+    }
   </script>
+
 </BaseLayout>
