@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const fullName = "David E. Sánchez Román";
+const shortBio = "Soy un profesional en transición al desarrollo de software, con una sólida base en gestión de operaciones, logística y administración, y actualmente cursando Ingeniería en Informática. Mi trayectoria previa me ha dotado de una gran capacidad de organización, resolución de problemas y adaptabilidad, habilidades que ahora aplico con pasión en el mundo de la tecnología.";
+
+const programmingSkills = [
+    "Lógica de Programación",
+    "Resolución de Problemas",
+    "Análisis de Datos",
+    "Automatización de Procesos",
+    // Agrega lenguajes y herramientas específicos a medida que avances
+    // Ej: "JavaScript", "Python", "HTML", "CSS", "SQL"
+];
+---
+
+<BaseLayout title="Sobre Mí - David Sánchez Román">
+    <section class="py-12 px-6 md:px-8 lg:px-10 bg-dark-surface rounded-lg shadow-xl mb-10 border border-dark-border">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-extrabold text-accent-blue mb-6">
+                Sobre Mí
+            </h2>
+            <img
+                src="/FotoCVSinFondo.png"
+                alt="Foto de perfil de David Sánchez Román"
+                class="mx-auto rounded-full w-40 h-40 object-cover shadow-lg mb-8 border-4 border-accent-blue
+                       transition-transform duration-300 hover:scale-105 cursor-pointer"
+            />
+            <p class="text-lg text-dark-text-muted leading-relaxed mb-8">
+                {shortBio}
+            </p>
+
+            <div class="text-center mt-10">
+                <h3 class="text-2xl font-bold text-dark-text mb-4">
+                    Mi Trayectoria y Evolución
+                </h3>
+                <p class="text-dark-text-muted leading-relaxed mb-4">
+                    Con más de una década de experiencia en roles clave de **Programación/Despacho, Administración Logística y Ventas**, he cultivado una fuerte capacidad para la **planificación operativa, gestión de recursos y optimización de procesos** a través de metodologías como **OAD y Lean**. Mi paso por empresas como ReadyMix Ltda., Megametal Ltda. y Besalco Construcciones S.A. me brindó una perspectiva profunda sobre la eficiencia y el cumplimiento de objetivos.
+                </p>
+                <p class="text-dark-text-muted leading-relaxed mb-4">
+                    Actualmente, estoy en un emocionante proceso de **reconversión profesional hacia la Ingeniería en Informática** en CIISA. Esta transición está impulsada por mi genuino interés en la tecnología y mi deseo de aplicar mi **actitud proactiva y adaptabilidad** en el desarrollo de soluciones digitales innovadoras.
+                </p>
+                <p class="text-dark-text-muted leading-relaxed">
+                    Soy una persona que se adapta rápidamente a entornos cambiantes, siempre buscando mejorar y aprender cosas nuevas. Mi enfoque en el logro de objetivos me permite enfrentar desafíos y superar obstáculos para alcanzar mis metas, tanto personales como profesionales.
+                </p>
+
+                <h3 class="text-2xl font-bold text-dark-text mt-10 mb-4">
+                    Habilidades Clave y Enfoque
+                </h3>
+                <div class="flex flex-wrap justify-center gap-3">
+                    {programmingSkills.map((skill) => (
+                        <span class="bg-accent-blue-dark text-white text-sm font-medium px-4 py-2 rounded-full shadow-md hover:bg-accent-blue transition-colors duration-200">
+                            {skill}
+                        </span>
+                    ))}
+                    <span class="bg-accent-blue-dark text-white text-sm font-medium px-4 py-2 rounded-full shadow-md hover:bg-accent-blue transition-colors duration-200">
+                        Organización y Planificación
+                    </span>
+                    <span class="bg-accent-blue-dark text-white text-sm font-medium px-4 py-2 rounded-full shadow-md hover:bg-accent-blue transition-colors duration-200">
+                        Gestión de Proyectos (OAD, Lean)
+                    </span>
+                    <span class="bg-accent-blue-dark text-white text-sm font-medium px-4 py-2 rounded-full shadow-md hover:bg-accent-blue transition-colors duration-200">
+                        Mejora Continua
+                    </span>
+                    <span class="bg-accent-blue-dark text-white text-sm font-medium px-4 py-2 rounded-full shadow-md hover:bg-accent-blue transition-colors duration-200">
+                        Análisis y Manejo de Datos
+                    </span>
+                    <span class="bg-accent-blue-dark text-white text-sm font-medium px-4 py-2 rounded-full shadow-md hover:bg-accent-blue transition-colors duration-200">
+                        Adaptabilidad y Flexibilidad (Experiencia en entornos cambiantes)
+                    </span>
+                    <span class="bg-accent-blue-dark text-white text-sm font-medium px-4 py-2 rounded-full shadow-md hover:bg-accent-blue transition-colors duration-200">
+                        Proactividad y Enfoque en Resultados
+                    </span>
+                    <span class="bg-accent-blue-dark text-white text-sm font-medium px-4 py-2 rounded-full shadow-md hover:bg-accent-blue transition-colors duration-200">
+                        Curiosidad y Aprendizaje Continuo (Interés en tecnología, lectura, viajes)
+                    </span>
+                    <span class="bg-accent-blue-dark text-white text-sm font-medium px-4 py-2 rounded-full shadow-md hover:bg-accent-blue transition-colors duration-200">
+                        Trabajo en Equipo y Disciplina (Experiencia deportiva)
+                    </span>
+                </div>
+
+                <p class="text-dark-text-muted leading-relaxed mb-10 mt-8 text-center">
+                    Mi curiosidad y pasión por aprender, cultivadas a través de mis intereses personales y mi trayectoria diversa, me impulsan a enfrentar nuevos desafíos en el mundo del desarrollo.
+                </p>
+                <div class="text-center"> <a
+        href="/contacto"
+        class="inline-block bg-accent-blue hover:bg-accent-blue-dark
+               text-white font-bold py-3 px-8 rounded-full text-lg
+               transition-colors duration-300 transform hover:scale-105"
+    >
+        Conectemos
+    </a>
+</div>
+            </div>
+        </div>
+    </section>
+</BaseLayout>
