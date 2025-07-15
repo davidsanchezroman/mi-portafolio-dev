@@ -1,130 +1,178 @@
 ---
+
 ---
 
 <header id="main-header" class="fixed w-full top-0 left-0 z-50
                              transition-all duration-300 ease-in-out
                              bg-dark-surface border-b border-dark-border">
-  <div id="header-content-wrapper" class="container mx-auto flex justify-between items-center
+    <div id="header-content-wrapper" class="container mx-auto flex justify-between items-center
                                          p-4 text-dark-text
                                          transition-all duration-300 ease-in-out">
-    <a href="/" class="text-2xl font-bold text-accent-blue
-                        hover:text-accent-blue-dark transition-colors duration-200">
-      Mi Portafolio Dev
-    </a>
+        <a href="/" class="text-2xl font-bold text-accent-blue
+                            hover:text-accent-blue-dark transition-colors duration-200"
+                            data-astro-prefetch> {/* Añadir prefetch para una navegación más fluida */}
+            Mi Portafolio Dev
+        </a>
 
-    <button id="menu-button" class="md:hidden text-dark-text focus:outline-none z-50">
-      <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-      </svg>
-    </button>
+        <button id="menu-button" class="md:hidden text-dark-text focus:outline-none z-50" aria-label="Abrir menú">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
 
-    <nav class="hidden md:block">
-      <ul class="flex space-x-6">
-        <li><a href="/" class="hover:text-accent-blue transition-colors duration-200">Inicio</a></li>
-        <li><a href="/proyectos" class="hover:text-accent-blue transition-colors duration-200">Proyectos</a></li>
-        <li><a href="/sobre-mi" class="hover:text-accent-blue transition-colors duration-200">Sobre Mí</a></li>
-        <li><a href="/contacto" class="hover:text-accent-blue transition-colors duration-200">Contacto</a></li>
-      </ul>
+        <nav class="hidden md:block">
+            <ul class="flex space-x-6">
+                <li><a href="/" class="hover:text-accent-blue transition-colors duration-200" data-astro-prefetch>Inicio</a></li>
+                <li><a href="/proyectos" class="hover:text-accent-blue transition-colors duration-200" data-astro-prefetch>Proyectos</a></li>
+                <li><a href="/sobre-mi" class="hover:text-accent-blue transition-colors duration-200" data-astro-prefetch>Sobre Mí</a></li>
+                <li><a href="/contacto" class="hover:text-accent-blue transition-colors duration-200" data-astro-prefetch>Contacto</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <nav id="mobile-menu" class="fixed top-0 h-full w-64 bg-dark-surface bg-opacity-90 backdrop-blur-sm
+                                 shadow-lg p-6 transition-all duration-300 ease-in-out
+                                 md:hidden z-[100] flex flex-col pt-16
+                                 left-full hidden text-dark-text">
+        <button id="close-menu-button" class="absolute top-4 right-4 text-dark-text focus:outline-none" aria-label="Cerrar menú">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        <ul class="flex flex-col space-y-6 text-xl w-full">
+            <li><a href="/" class="block py-2 px-4 hover:text-accent-blue transition-colors duration-200" data-astro-prefetch>Inicio</a></li>
+            <li><a href="/proyectos" class="block py-2 px-4 hover:text-accent-blue transition-colors duration-200" data-astro-prefetch>Proyectos</a></li>
+            <li><a href="/sobre-mi" class="block py-2 px-4 hover:text-accent-blue transition-colors duration-200" data-astro-prefetch>Sobre Mí</a></li>
+            <li><a href="/contacto" class="block py-2 px-4 hover:text-accent-blue transition-colors duration-200" data-astro-prefetch>Contacto</a></li>
+        </ul>
     </nav>
-  </div>
 
-  <nav id="mobile-menu" class="fixed top-0 h-full w-64 bg-dark-surface bg-opacity-90 backdrop-blur-sm
-                                shadow-lg p-6 transition-all duration-300 ease-in-out
-                                md:hidden z-[100] flex flex-col pt-16
-                                left-full hidden text-dark-text"> <button id="close-menu-button" class="absolute top-4 right-4 text-dark-text focus:outline-none"> <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-      </svg>
-    </button>
-    <ul class="flex flex-col space-y-6 text-xl w-full">
-      <li><a href="/" class="block py-2 px-4 hover:text-accent-blue transition-colors duration-200" onclick="document.getElementById('mobile-menu').classList.remove('translate-x-0')">Inicio</a></li>
-      <li><a href="/proyectos" class="block py-2 px-4 hover:text-accent-blue transition-colors duration-200" onclick="document.getElementById('mobile-menu').classList.remove('translate-x-0')">Proyectos</a></li>
-      <li><a href="/sobre-mi" class="block py-2 px-4 hover:text-accent-blue transition-colors duration-200" onclick="document.getElementById('mobile-menu').classList.remove('translate-x-0')">Sobre Mí</a></li>
-      <li><a href="/contacto" class="block py-2 px-4 hover:text-accent-blue transition-colors duration-200" onclick="document.getElementById('mobile-menu').classList.remove('translate-x-0')">Contacto</a></li>
-    </ul>
-  </nav>
-
-  <div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[90] hidden md:hidden"></div>
+    <div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[90] hidden md:hidden"></div>
 </header>
 
 <script is:inline>
-  document.addEventListener('DOMContentLoaded', () => {
-    const mainHeader = document.getElementById('main-header');
-    const headerContentWrapper = document.getElementById('header-content-wrapper');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const menuButton = document.getElementById('menu-button');
-    const closeMenuButton = document.getElementById('close-menu-button');
-    const menuOverlay = document.getElementById('menu-overlay');
 
-    if (mobileMenu) {
-        // Al cargar, asegurarnos de que esté oculto y en la posición inicial
-        mobileMenu.classList.add('left-full'); // Posición inicial fuera de pantalla
-        mobileMenu.classList.add('hidden'); // Ocultar con display: none
+    function setupMobileMenu() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuButton = document.getElementById('menu-button');
+        const closeMenuButton = document.getElementById('close-menu-button');
+        const menuOverlay = document.getElementById('menu-overlay');
+
+        if (!mobileMenu || !menuButton || !closeMenuButton || !menuOverlay) {
+
+            return;
+        }
+
+      
+        mobileMenu.classList.add('left-full', 'hidden');
+        menuOverlay.classList.add('hidden');
+        document.body.style.overflow = ''; 
+
+        const openMenu = () => {
+            mobileMenu.classList.remove('hidden', 'left-full');
+            mobileMenu.classList.add('right-0');
+            menuOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        };
+
+        const closeMenu = () => {
+            mobileMenu.classList.remove('right-0');
+            mobileMenu.classList.add('left-full');
+            menuOverlay.classList.add('hidden');
+            setTimeout(() => {
+                mobileMenu.classList.add('hidden');
+            }, 300); 
+            document.body.style.overflow = '';
+        };
+
+        
+        menuButton.removeEventListener('click', openMenu);
+        closeMenuButton.removeEventListener('click', closeMenu);
+        menuOverlay.removeEventListener('click', closeMenu);
+        mobileMenu.querySelectorAll('a').forEach(link => link.removeEventListener('click', closeMenu));
+
+
+        
+        menuButton.addEventListener('click', openMenu);
+        closeMenuButton.addEventListener('click', closeMenu);
+        menuOverlay.addEventListener('click', closeMenu);
+      
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+
+        
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) { 
+                closeMenu();
+            }
+        });
     }
 
-    if (menuButton && mobileMenu && menuOverlay) {
-      menuButton.addEventListener('click', () => {
-        mobileMenu.classList.remove('hidden');
-        mobileMenu.classList.remove('left-full');
-        mobileMenu.classList.add('right-0');
-        menuOverlay.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-      });
+    
+    function setupStickyHeader() {
+        const mainHeader = document.getElementById('main-header');
+        const headerContentWrapper = document.getElementById('header-content-wrapper');
 
-      closeMenuButton.addEventListener('click', () => {
-        mobileMenu.classList.remove('right-0');
-        mobileMenu.classList.add('left-full');
-        menuOverlay.classList.add('hidden');
-        setTimeout(() => {
-          mobileMenu.classList.add('hidden');
-        }, 300);
-        document.body.style.overflow = '';
-      });
+        if (!mainHeader || !headerContentWrapper) {
 
-      menuOverlay.addEventListener('click', () => {
-        mobileMenu.classList.remove('right-0');
-        mobileMenu.classList.add('left-full');
-        menuOverlay.classList.add('hidden');
-        setTimeout(() => {
-          mobileMenu.classList.add('hidden');
-        }, 300);
-        document.body.style.overflow = '';
-      });
+            return;
+        }
+
+        const handleScroll = () => {
+            if (window.innerWidth >= 768) { 
+                if (window.scrollY > 80) { 
+                    headerContentWrapper.classList.add('scrolled-header-active');
+                    mainHeader.classList.add('bg-opacity-90', 'backdrop-blur-sm');
+                } else {
+                    headerContentWrapper.classList.remove('scrolled-header-active');
+                    mainHeader.classList.remove('bg-opacity-90', 'backdrop-blur-sm');
+                }
+            } else { 
+                headerContentWrapper.classList.remove('scrolled-header-active');
+                mainHeader.classList.remove('bg-opacity-90', 'backdrop-blur-sm');
+            }
+        };
+
+        
+        window.removeEventListener('scroll', handleScroll);
+        
+        window.addEventListener('scroll', handleScroll);
+
+        handleScroll();
     }
 
-    window.addEventListener('scroll', () => {
-      if (window.innerWidth >= 768) {
-        if (window.scrollY > 80) {
-          if (headerContentWrapper) headerContentWrapper.classList.add('scrolled-header-active');
-          if (mainHeader) mainHeader.classList.add('bg-opacity-90', 'backdrop-blur-sm');
-        } else {
-          if (headerContentWrapper) headerContentWrapper.classList.remove('scrolled-header-active');
-          if (mainHeader) mainHeader.classList.remove('bg-opacity-90', 'backdrop-blur-sm');
-        }
-      } else {
-        if (headerContentWrapper) headerContentWrapper.classList.remove('scrolled-header-active');
-        if (mainHeader) mainHeader.classList.remove('bg-opacity-90', 'backdrop-blur-sm');
-      }
+    // --- Inicialización ---
+
+    // 1. Ejecutar la configuración cuando el DOM esté listo por primera vez
+    document.addEventListener('DOMContentLoaded', () => {
+        setupMobileMenu();
+        setupStickyHeader();
     });
 
-    window.addEventListener('resize', () => {
-      if (window.innerWidth >= 768) {
-        if (mobileMenu) {
-          mobileMenu.classList.remove('right-0');
-          mobileMenu.classList.add('left-full');
-          mobileMenu.classList.add('hidden');
-        }
-        if (menuOverlay) menuOverlay.classList.add('hidden');
-        document.body.style.overflow = '';
-      }
+    document.addEventListener('astro:after-swap', () => {
+        setupMobileMenu();
+        setupStickyHeader();
     });
 
-  });
+    // Opcional: Limpiar el estado o listeners antes de un "swap" si fuera necesario para evitar conflictos
+    // document.addEventListener('astro:before-swap', () => {
+    //     // Por ejemplo, cerrar el menú si está abierto para que no quede visualmente bugueado
+    //     const mobileMenu = document.getElementById('mobile-menu');
+    //     if (mobileMenu && mobileMenu.classList.contains('right-0')) {
+    //         mobileMenu.classList.remove('right-0');
+    //         mobileMenu.classList.add('left-full', 'hidden');
+    //         document.body.style.overflow = '';
+    //         document.getElementById('menu-overlay')?.classList.add('hidden');
+    //     }
+    // });
+
 </script>
 
 <style is:global>
-  .scrolled-header-active {
-    @apply mt-4 rounded-xl mx-auto max-w-5xl shadow-2xl;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
+    .scrolled-header-active {
+        @apply mt-4 rounded-xl mx-auto max-w-5xl shadow-2xl;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 </style>

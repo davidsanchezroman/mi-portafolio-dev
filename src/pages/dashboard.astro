@@ -1,0 +1,123 @@
+---
+import DashboardLayout from '../layouts/DashboardLayout.astro';
+import { SalesChart } from '../components/charts/SalesChart.jsx';
+import { PieChart } from '../components/charts/PieChart.jsx';
+import salesData from '../data/salesData.json'; // Importa tus datos
+
+// --- Definiciones de Tipo (para mejorar la inferencia de TypeScript) ---
+interface SaleItem {
+    id: number;
+    date: string;
+    product: string;
+    category: string;
+    sales: number;
+    units: number;
+    region: string;
+    seller: string;
+}
+
+interface SalesByMonth {
+    [key: string]: number; // Permite indexar con strings, y los valores son números
+}
+
+interface SalesByCategory {
+    [key: string]: number;
+}
+
+interface SalesBySeller {
+    [key: string]: number;
+}
+
+// --- Procesamiento de Datos ---
+
+// 1. Ventas por Mes
+const salesByMonth = salesData.reduce((acc: SalesByMonth, item: SaleItem) => {
+    const monthYear = item.date.substring(0, 7); // "YYYY-MM"
+    acc[monthYear] = (acc[monthYear] || 0) + item.sales;
+    return acc;
+}, {} as SalesByMonth); // Inicializa con el tipo explícito
+const sortedMonths = Object.keys(salesByMonth).sort();
+const monthlySalesLabels = sortedMonths;
+const monthlySalesData = sortedMonths.map(month => salesByMonth[month]);
+
+// 2. Ventas por Categoría
+const salesByCategory = salesData.reduce((acc: SalesByCategory, item: SaleItem) => {
+    acc[item.category] = (acc[item.category] || 0) + item.sales;
+    return acc;
+}, {} as SalesByCategory); // Inicializa con el tipo explícito
+const categoryLabels = Object.keys(salesByCategory);
+const categorySalesData = Object.values(salesByCategory);
+
+// 3. Ventas por Vendedor (Top 3)
+const salesBySeller = salesData.reduce((acc: SalesBySeller, item: SaleItem) => {
+    acc[item.seller] = (acc[item.seller] || 0) + item.sales;
+    return acc;
+}, {} as SalesBySeller); // Inicializa con el tipo explícito
+
+const sortedSellers = Object.entries(salesBySeller)
+    .sort(([, a], [, b]) => (b as number) - (a as number)) // Asegura que 'a' y 'b' son números
+    .slice(0, 3); // Obtener solo los 3 mejores
+
+const sellerLabels = sortedSellers.map(s => s[0]);
+const sellerSalesData = sortedSellers.map(s => s[1]);
+
+
+// 4. KPIs (Indicadores Clave de Rendimiento)
+const totalSales = salesData.reduce((sum: number, item: SaleItem) => sum + item.sales, 0);
+const totalUnits = salesData.reduce((sum: number, item: SaleItem) => sum + item.units, 0);
+const averageSale = totalSales / salesData.length;
+const uniqueProducts = new Set(salesData.map((item: SaleItem) => item.product)).size;
+---
+
+<DashboardLayout title="Dashboard de Ventas">
+    <h1 class="text-3xl font-bold mb-8 text-center text-cyan-400">Panel de Control de Ventas</h1>
+
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700">
+            <h3 class="text-lg font-semibold text-gray-300">Ventas Totales</h3>
+            <p class="text-4xl font-bold text-green-400 mt-2">{totalSales.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' })}</p>
+        </div>
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700">
+            <h3 class="text-lg font-semibold text-gray-300">Unidades Vendidas</h3>
+            <p class="text-4xl font-bold text-blue-400 mt-2">{totalUnits.toLocaleString()}</p>
+        </div>
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700">
+            <h3 class="text-lg font-semibold text-gray-300">Venta Promedio</h3>
+            <p class="text-4xl font-bold text-yellow-400 mt-2">{averageSale.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' })}</p>
+        </div>
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700">
+            <h3 class="text-lg font-semibold text-gray-300">Productos Únicos</h3>
+            <p class="text-4xl font-bold text-purple-400 mt-2">{uniqueProducts}</p>
+        </div>
+    </section>
+
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 h-[400px]">
+            <SalesChart
+                client:load
+                data={monthlySalesData}
+                labels={monthlySalesLabels}
+                chartTitle="Ventas Mensuales"
+                datasetLabel="Ventas ($)"
+            />
+        </div>
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 h-[400px]">
+            <PieChart
+                client:load
+                data={categorySalesData}
+                labels={categoryLabels}
+                chartTitle="Ventas por Categoría"
+            />
+        </div>
+    </section>
+
+    <section class="mt-6 bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 h-[400px]">
+        <SalesChart
+            client:load
+            data={sellerSalesData}
+            labels={sellerLabels}
+            chartTitle="Top 3 Vendedores"
+            datasetLabel="Ventas ($)"
+        />
+    </section>
+</DashboardLayout>

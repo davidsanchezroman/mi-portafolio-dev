@@ -1,0 +1,42 @@
+---
+import BaseLayout from './BaseLayout.astro'; // Asume que tienes un layout base
+// Importa el componente del fondo neuronal
+import NeuralNetworkBackground from '../components/NeuralNetworkBackground.astro';
+
+const { title } = Astro.props;
+---
+
+<BaseLayout title={title}>
+    <div class="projects-page-container">
+        <NeuralNetworkBackground /> {/* Aquí se inserta el fondo */}
+        <main class="content-wrapper">
+            <slot /> {/* Aquí se cargará el contenido de tus proyectos */}
+        </main>
+    </div>
+    <style is:global>
+        /* Estilos generales para el contenedor de la página de proyectos */
+        .projects-page-container {
+            position: relative; /* Necesario para posicionar el fondo */
+            min-height: 100vh; /* Asegura que ocupe toda la altura */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Evita barras de desplazamiento si el fondo es más grande */
+        }
+
+        .content-wrapper {
+            position: relative; /* Asegura que el contenido esté por encima del fondo */
+            z-index: 10; /* Mayor z-index que el fondo */
+            background: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente para el contenido */
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 900px;
+            width: 90%;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); /* Sombra con color cyano */
+            color: white;
+        }
+
+        /* Puedes agregar estilos para tus proyectos aquí */
+    </style>
+</BaseLayout>
