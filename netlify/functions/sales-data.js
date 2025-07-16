@@ -1,55 +1,61 @@
 // netlify/functions/sales-data.js
+const { createClient } = require('@supabase/supabase-js');
 
-// Datos de ventas (inicialmente, los mismos que tenías en tu JSON)
-// En un futuro, esto se reemplazaría con una conexión a tu base de datos
-const salesData = [
-  { "id": 1, "date": "2024-01-05", "product": "Laptop Pro", "category": "Electrónica", "sales": 1200, "units": 1, "region": "Norte", "seller": "Ana" },
-  { "id": 2, "date": "2024-01-10", "product": "Mouse Inalámbrico", "category": "Accesorios", "sales": 35, "units": 2, "region": "Norte", "seller": "Ana" },
-  { "id": 3, "date": "2024-01-12", "product": "Teclado Mecánico", "category": "Accesorios", "sales": 80, "units": 1, "region": "Sur", "seller": "Pedro" },
-  { "id": 4, "date": "2024-02-01", "product": "Monitor Curvo", "category": "Electrónica", "sales": 450, "units": 1, "region": "Centro", "seller": "Sofía" },
-  { "id": 5, "date": "2024-02-08", "product": "Webcam HD", "category": "Accesorios", "sales": 60, "units": 3, "region": "Norte", "seller": "Ana" },
-  { "id": 6, "date": "2024-02-15", "product": "Auriculares Gaming", "category": "Audio", "sales": 120, "units": 1, "region": "Sur", "seller": "Pedro" },
-  { "id": 7, "date": "2024-03-01", "product": "Laptop Pro", "category": "Electrónica", "sales": 1200, "units": 1, "region": "Centro", "seller": "Sofía" },
-  { "id": 8, "date": "2024-03-05", "product": "Micrófono USB", "category": "Audio", "sales": 70, "units": 1, "region": "Norte", "seller": "Ana" },
-  { "id": 9, "date": "2024-03-10", "product": "Disco Duro Externo", "category": "Almacenamiento", "sales": 90, "units": 1, "region": "Sur", "seller": "Pedro" },
-  { "id": 10, "date": "2024-04-01", "product": "SSD Interno", "category": "Almacenamiento", "sales": 150, "units": 1, "region": "Centro", "seller": "Sofía" },
-  { "id": 11, "date": "2024-04-03", "product": "Impresora Multifunción", "category": "Periféricos", "sales": 200, "units": 1, "region": "Norte", "seller": "Ana" },
-  { "id": 12, "date": "2024-04-08", "product": "Monitor Curvo", "category": "Electrónica", "sales": 450, "units": 1, "region": "Sur", "seller": "Pedro" }
-];
+// Inicializa el cliente de Supabase usando variables de entorno
+// Netlify inyectará estas variables durante el despliegue
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
-// La función principal que Netlify ejecuta
+// Verifica que las variables de entorno estén cargadas (útil para depuración)
+if (!supabaseUrl || !supabaseAnonKey) {
+    console.error('Error: Las variables de entorno SUPABASE_URL o SUPABASE_ANON_KEY no están configuradas.');
+    // Podrías lanzar un error aquí o devolver una respuesta 500 inmediata si lo prefieres
+    // throw new Error('Supabase environment variables are not set.');
+}
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
 exports.handler = async (event, context) => {
-  // Opcional: Manejar diferentes métodos HTTP si tuvieras POST, PUT, DELETE, etc.
-  // if (event.httpMethod !== 'GET') {
-  //   return {
-  //     statusCode: 405,
-  //     body: JSON.stringify({ message: 'Method Not Allowed' }),
-  //     headers: { 'Allow': 'GET' },
-  //   };
-  // }
-
   try {
+    // Realiza la consulta a tu tabla 'sales_data' en Supabase
+    // Asegúrate de que 'sales_data' coincida con el nombre de tu tabla
+    const { data, error } = await supabase
+      .from('sales_data')
+      .select('*');
+
+    if (error) {
+      console.error('Error al obtener datos de Supabase:', error);
+      return {
+        statusCode: 500,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*", // CORS para acceso desde tu frontend
+          "Access-Control-Allow-Methods": "GET, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+        },
+        body: JSON.stringify({ message: 'Error al cargar los datos de ventas desde la base de datos.', error: error.message }),
+      };
+    }
+
     return {
-      statusCode: 200, // Código de éxito HTTP
+      statusCode: 200,
       headers: {
-        "Content-Type": "application/json", // Indica que la respuesta es JSON
-        // CORS (Cross-Origin Resource Sharing) headers:
-        // Permite solicitudes desde cualquier origen. En producción, podrías restringirlo a tu dominio de frontend.
-        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*", // ¡Mantén esto para CORS!
         "Access-Control-Allow-Methods": "GET, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type",
       },
-      body: JSON.stringify(salesData), // Convierte el array de datos a una cadena JSON
+      body: JSON.stringify(data), // 'data' contendrá los registros de tu tabla
     };
-  } catch (error) {
-    console.error('Error fetching sales data:', error);
+  } catch (e) {
+    console.error('Error general en la función:', e);
     return {
-      statusCode: 500, // Código de error interno del servidor
-      body: JSON.stringify({ message: 'Error interno del servidor', error: error.message }),
+      statusCode: 500,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*", // CORS para errores también
+        "Access-Control-Allow-Origin": "*",
       },
+      body: JSON.stringify({ message: 'Error interno del servidor.', error: e.message }),
     };
   }
 };
