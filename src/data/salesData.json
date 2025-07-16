@@ -1,14 +1,122 @@
 [
-  { "id": 1, "date": "2024-01-05", "product": "Laptop Pro", "category": "Electrónica", "sales": 1200, "units": 1, "region": "Norte", "seller": "Ana" },
-  { "id": 2, "date": "2024-01-10", "product": "Mouse Inalámbrico", "category": "Accesorios", "sales": 35, "units": 2, "region": "Norte", "seller": "Ana" },
-  { "id": 3, "date": "2024-01-12", "product": "Teclado Mecánico", "category": "Accesorios", "sales": 80, "units": 1, "region": "Sur", "seller": "Pedro" },
-  { "id": 4, "date": "2024-02-01", "product": "Monitor Curvo", "category": "Electrónica", "sales": 450, "units": 1, "region": "Centro", "seller": "Sofía" },
-  { "id": 5, "date": "2024-02-08", "product": "Webcam HD", "category": "Accesorios", "sales": 60, "units": 3, "region": "Norte", "seller": "Ana" },
-  { "id": 6, "date": "2024-02-15", "product": "Auriculares Gaming", "category": "Audio", "sales": 120, "units": 1, "region": "Sur", "seller": "Pedro" },
-  { "id": 7, "date": "2024-03-01", "product": "Laptop Pro", "category": "Electrónica", "sales": 1200, "units": 1, "region": "Centro", "seller": "Sofía" },
-  { "id": 8, "date": "2024-03-05", "product": "Micrófono USB", "category": "Audio", "sales": 70, "units": 1, "region": "Norte", "seller": "Ana" },
-  { "id": 9, "date": "2024-03-10", "product": "Disco Duro Externo", "category": "Almacenamiento", "sales": 90, "units": 1, "region": "Sur", "seller": "Pedro" },
-  { "id": 10, "date": "2024-04-01", "product": "SSD Interno", "category": "Almacenamiento", "sales": 150, "units": 1, "region": "Centro", "seller": "Sofía" },
-  { "id": 11, "date": "2024-04-03", "product": "Impresora Multifunción", "category": "Periféricos", "sales": 200, "units": 1, "region": "Norte", "seller": "Ana" },
-  { "id": 12, "date": "2024-04-08", "product": "Monitor Curvo", "category": "Electrónica", "sales": 450, "units": 1, "region": "Sur", "seller": "Pedro" }
+  {
+    "id": 1,
+    "date": "2024-01-05",
+    "product": "Laptop Pro",
+    "category": "Electrónica",
+    "sales": 1200,
+    "units": 1,
+    "region": "Norte",
+    "seller": "Ana"
+  },
+  {
+    "id": 2,
+    "date": "2024-01-10",
+    "product": "Mouse Inalámbrico",
+    "category": "Accesorios",
+    "sales": 35,
+    "units": 2,
+    "region": "Norte",
+    "seller": "Ana"
+  },
+  {
+    "id": 3,
+    "date": "2024-01-12",
+    "product": "Teclado Mecánico",
+    "category": "Accesorios",
+    "sales": 80,
+    "units": 1,
+    "region": "Sur",
+    "seller": "Pedro"
+  },
+  {
+    "id": 4,
+    "date": "2024-02-01",
+    "product": "Monitor Curvo",
+    "category": "Electrónica",
+    "sales": 450,
+    "units": 1,
+    "region": "Centro",
+    "seller": "Sofía"
+  },
+  {
+    "id": 5,
+    "date": "2024-02-08",
+    "product": "Webcam HD",
+    "category": "Accesorios",
+    "sales": 60,
+    "units": 3,
+    "region": "Norte",
+    "seller": "Ana"
+  },
+  {
+    "id": 6,
+    "date": "2024-02-15",
+    "product": "Auriculares Gaming",
+    "category": "Audio",
+    "sales": 120,
+    "units": 1,
+    "region": "Sur",
+    "seller": "Pedro"
+  },
+  {
+    "id": 7,
+    "date": "2024-03-01",
+    "product": "Laptop Pro",
+    "category": "Electrónica",
+    "sales": 1200,
+    "units": 1,
+    "region": "Centro",
+    "seller": "Sofía"
+  },
+  {
+    "id": 8,
+    "date": "2024-03-05",
+    "product": "Micrófono USB",
+    "category": "Audio",
+    "sales": 70,
+    "units": 1,
+    "region": "Norte",
+    "seller": "Ana"
+  },
+  {
+    "id": 9,
+    "date": "2024-03-10",
+    "product": "Disco Duro Externo",
+    "category": "Almacenamiento",
+    "sales": 90,
+    "units": 1,
+    "region": "Sur",
+    "seller": "Pedro"
+  },
+  {
+    "id": 10,
+    "date": "2024-04-01",
+    "product": "SSD Interno",
+    "category": "Almacenamiento",
+    "sales": 150,
+    "units": 1,
+    "region": "Centro",
+    "seller": "Sofía"
+  },
+  {
+    "id": 11,
+    "date": "2024-04-03",
+    "product": "Impresora Multifunción",
+    "category": "Periféricos",
+    "sales": 200,
+    "units": 1,
+    "region": "Norte",
+    "seller": "Ana"
+  },
+  {
+    "id": 12,
+    "date": "2024-04-08",
+    "product": "Monitor Curvo",
+    "category": "Electrónica",
+    "sales": 450,
+    "units": 1,
+    "region": "Sur",
+    "seller": "Pedro"
+  }
 ]
