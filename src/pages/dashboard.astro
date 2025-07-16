@@ -1,10 +1,11 @@
 ---
+// src/pages/dashboard.astro
+
 import DashboardLayout from '../layouts/DashboardLayout.astro';
 import { SalesChart } from '../components/charts/SalesChart.jsx';
 import { PieChart } from '../components/charts/PieChart.jsx';
-import salesData from '../data/salesData.json'; // Importa tus datos
 
-// --- Definiciones de Tipo (para mejorar la inferencia de TypeScript) ---
+// (Tus interfaces SaleItem y SalesByMap si estás usando TypeScript)
 interface SaleItem {
     id: number;
     date: string;
@@ -16,62 +17,100 @@ interface SaleItem {
     seller: string;
 }
 
-interface SalesByMonth {
-    [key: string]: number; // Permite indexar con strings, y los valores son números
-}
-
-interface SalesByCategory {
+interface SalesByMap {
     [key: string]: number;
 }
 
-interface SalesBySeller {
-    [key: string]: number;
+let salesData: SaleItem[] = [];
+let error: string | null = null;
+
+try {
+    // --- ¡CAMBIO CRUCIAL AQUÍ! ---
+    // La URL de tu Netlify Function.
+    // Usamos una ruta relativa porque tu frontend y tu función están en el mismo dominio base de Netlify.
+    const API_URL = '/.netlify/functions/sales-data';
+
+    const response = await fetch(API_URL); // `await` funciona en el frontmatter de Astro
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
+    }
+    salesData = await response.json();
+
+} catch (err) {
+    console.error("Error fetching sales data in Astro frontmatter:", err);
+    error = `No se pudieron cargar los datos de ventas: ${err instanceof Error ? err.message : String(err)}`;
 }
 
-// --- Procesamiento de Datos ---
+// --- Procesamiento de Datos (el resto de esta sección permanece igual) ---
+// Si hay un error, puedes renderizar un mensaje de error simple
+if (error) {
+    return (
+        <DashboardLayout title="Error en Dashboard">
+            <div class="text-red-500 text-center py-10">
+                <h1 class="text-3xl font-bold mb-4">Error al cargar el Dashboard</h1>
+                <p>{error}</p>
+                <p class="text-sm mt-2 text-gray-400">Verifica que tu Netlify Function esté desplegada correctamente y que Supabase esté accesible.</p>
+            </div>
+        </DashboardLayout>
+    );
+}
+
+// Si no hay datos después de cargar, también puedes mostrar un mensaje
+if (salesData.length === 0) {
+    return (
+        <DashboardLayout title="Dashboard de Ventas">
+            <div class="text-white text-center py-10">
+                <h1 class="text-3xl font-bold mb-4">Dashboard de Ventas</h1>
+                <p>No hay datos de ventas disponibles para mostrar.</p>
+                <p class="text-sm mt-2 text-gray-400">Puede que la base de datos esté vacía o que haya un problema con la API.</p>
+            </div>
+        </DashboardLayout>
+    );
+}
+
 
 // 1. Ventas por Mes
-const salesByMonth = salesData.reduce((acc: SalesByMonth, item: SaleItem) => {
+const salesByMonth = salesData.reduce((acc: SalesByMap, item) => {
     const monthYear = item.date.substring(0, 7); // "YYYY-MM"
     acc[monthYear] = (acc[monthYear] || 0) + item.sales;
     return acc;
-}, {} as SalesByMonth); // Inicializa con el tipo explícito
+}, {} as SalesByMap);
 const sortedMonths = Object.keys(salesByMonth).sort();
 const monthlySalesLabels = sortedMonths;
 const monthlySalesData = sortedMonths.map(month => salesByMonth[month]);
 
 // 2. Ventas por Categoría
-const salesByCategory = salesData.reduce((acc: SalesByCategory, item: SaleItem) => {
+const salesByCategory = salesData.reduce((acc: SalesByMap, item) => {
     acc[item.category] = (acc[item.category] || 0) + item.sales;
     return acc;
-}, {} as SalesByCategory); // Inicializa con el tipo explícito
+}, {} as SalesByMap);
 const categoryLabels = Object.keys(salesByCategory);
 const categorySalesData = Object.values(salesByCategory);
 
 // 3. Ventas por Vendedor (Top 3)
-const salesBySeller = salesData.reduce((acc: SalesBySeller, item: SaleItem) => {
+const salesBySeller = salesData.reduce((acc: SalesByMap, item) => {
     acc[item.seller] = (acc[item.seller] || 0) + item.sales;
     return acc;
-}, {} as SalesBySeller); // Inicializa con el tipo explícito
-
+}, {} as SalesByMap);
 const sortedSellers = Object.entries(salesBySeller)
-    .sort(([, a], [, b]) => (b as number) - (a as number)) // Asegura que 'a' y 'b' son números
-    .slice(0, 3); // Obtener solo los 3 mejores
+    .sort(([, a], [, b]) => (b as number) - (a as number))
+    .slice(0, 3);
 
 const sellerLabels = sortedSellers.map(s => s[0]);
 const sellerSalesData = sortedSellers.map(s => s[1]);
 
-
 // 4. KPIs (Indicadores Clave de Rendimiento)
-const totalSales = salesData.reduce((sum: number, item: SaleItem) => sum + item.sales, 0);
-const totalUnits = salesData.reduce((sum: number, item: SaleItem) => sum + item.units, 0);
+const totalSales = salesData.reduce((sum, item) => sum + item.sales, 0);
+const totalUnits = salesData.reduce((sum, item) => sum + item.units, 0);
 const averageSale = totalSales / salesData.length;
-const uniqueProducts = new Set(salesData.map((item: SaleItem) => item.product)).size;
+const uniqueProducts = new Set(salesData.map(item => item.product)).size;
 ---
 
+{/* El resto del JSX del dashboard permanece exactamente igual */}
 <DashboardLayout title="Dashboard de Ventas">
     <h1 class="text-3xl font-bold mb-8 text-center text-cyan-400">Panel de Control de Ventas</h1>
 
+    {/* Sección de KPIs */}
     <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700">
             <h3 class="text-lg font-semibold text-gray-300">Ventas Totales</h3>
@@ -91,8 +130,10 @@ const uniqueProducts = new Set(salesData.map((item: SaleItem) => item.product)).
         </div>
     </section>
 
+    {/* Sección de gráficos */}
     <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700 h-[400px]">
+            {/* Asegúrate de que client:load está presente para que Chart.js funcione en el cliente */}
             <SalesChart
                 client:load
                 data={monthlySalesData}
