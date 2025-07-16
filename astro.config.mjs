@@ -9,7 +9,5 @@ import netlify from '@astrojs/netlify';
 export default defineConfig({
   integrations: [tailwind(), react()],
   output: 'server',
-  adapter: netlify({
-    edge: false // Cambia a true si quieres usar funciones Edge
-  })
+  adapter: netlify()
 });
