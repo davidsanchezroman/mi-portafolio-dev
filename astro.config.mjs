@@ -10,6 +10,6 @@ export default defineConfig({
   integrations: [tailwind(), react()],
   output: 'server',
   adapter: netlify({
-    edge: false, // Cambia a true si quieres usar funciones Edge
-  }),
+    edge: false // Cambia a true si quieres usar funciones Edge
+  })
 });
