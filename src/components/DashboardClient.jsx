@@ -5,20 +5,27 @@ import { PieChart } from './charts/PieChart.jsx';
 export function DashboardClient() {
   const [salesData, setSalesData] = useState([]);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const isDev = import.meta.env.DEV;
-    const baseURL = isDev
-      ? 'http://localhost:8888/.netlify/functions/sales-data'
-      : '/.netlify/functions/sales-data';
+    const getData = async () => {
+      try {
+        setIsLoading(true);
+        const isDev = import.meta.env.DEV;
+        const baseURL = isDev
+          ? 'http://localhost:8888/.netlify/functions/sales-data'
+          : '/.netlify/functions/sales-data';
 
-    fetch(baseURL)
-      .then(res => {
-        if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
-        return res.json();
-      })
-      .then(setSalesData)
-      .catch(err => setError(err.message));
+        const data = await fetchSalesData(baseURL);
+        setSalesData(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getData();
   }, []);
 
   if (error) {
@@ -26,16 +33,22 @@ export function DashboardClient() {
       <div className="text-red-500 text-center py-10">
         <h1 className="text-3xl font-bold mb-4">Error al cargar el Dashboard</h1>
         <p>{error}</p>
-        <p className="text-sm mt-2 text-gray-400">Verifica tu función de Netlify o Supabase.</p>
+        <button 
+          onClick={() => window.location.reload()}
+          className="mt-4 bg-accent-blue hover:bg-accent-blue-dark text-white px-4 py-2 rounded"
+        >
+          Reintentar
+        </button>
       </div>
     );
   }
 
-  if (salesData.length === 0) {
+  if (isLoading) {
     return (
       <div className="text-white text-center py-10">
         <h1 className="text-3xl font-bold mb-4">Dashboard de Ventas</h1>
         <p>Cargando datos...</p>
+        <div className="mt-4 animate-spin h-8 w-8 border-4 border-accent-blue border-t-transparent rounded-full mx-auto"></div>
       </div>
     );
   }
