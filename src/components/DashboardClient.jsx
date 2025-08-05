@@ -11,15 +11,13 @@ export function DashboardClient() {
     const getData = async () => {
       try {
         setIsLoading(true);
-        const isDev = import.meta.env.DEV;
-        const baseURL = isDev
-          ? 'http://localhost:8888/.netlify/functions/sales-data'
-          : '/.netlify/functions/sales-data';
-
-        const data = await fetchSalesData(baseURL);
+        const response = await fetch('/.netlify/functions/sales-data');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
         setSalesData(data);
       } catch (err) {
         setError(err.message);
+        console.error('Error fetching data:', err);
       } finally {
         setIsLoading(false);
       }
