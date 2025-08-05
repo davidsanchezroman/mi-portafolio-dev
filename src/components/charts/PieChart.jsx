@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Pie } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -10,6 +10,24 @@ import {
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export function PieChart({ data, labels, chartTitle }) {
+    const chartRef = useRef(null);
+
+    useEffect(() => {
+        // Cleanup function para destruir el chart cuando el componente se desmonte
+        return () => {
+            if (chartRef.current) {
+                chartRef.current.destroy();
+            }
+        };
+    }, []);
+
+    if (!data || !labels || data.length === 0 || labels.length === 0) {
+        return (
+            <div className="w-full h-64 flex items-center justify-center bg-gray-800 rounded text-white">
+                <p>No hay datos para mostrar</p>
+            </div>
+        );
+    }
     const chartData = {
         labels: labels,
         datasets: [
@@ -68,7 +86,7 @@ export function PieChart({ data, labels, chartTitle }) {
 
     return (
         <div className="h-full w-full">
-            <Pie data={chartData} options={options} />
+            <Pie ref={chartRef} data={chartData} options={options} />
         </div>
     );
 }

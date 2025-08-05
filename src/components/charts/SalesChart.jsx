@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -20,7 +20,26 @@ ChartJS.register(
     Legend
 );
 
-export function SalesChart({ data, labels, chartTitle, datasetLabel = 'Valor' }) {
+export function SalesChart({ data, labels, chartTitle, datasetLabel = 'Ventas' }) {
+    const chartRef = useRef(null);
+
+    useEffect(() => {
+        // Cleanup function para destruir el chart cuando el componente se desmonte
+        return () => {
+            if (chartRef.current) {
+                chartRef.current.destroy();
+            }
+        };
+    }, []);
+
+    if (!data || !labels || data.length === 0 || labels.length === 0) {
+        return (
+            <div className="w-full h-64 flex items-center justify-center bg-gray-800 rounded text-white">
+                <p>No hay datos para mostrar</p>
+            </div>
+        );
+    }
+
     const chartData = {
         labels: labels,
         datasets: [
@@ -71,7 +90,7 @@ export function SalesChart({ data, labels, chartTitle, datasetLabel = 'Valor' })
 
     return (
         <div className="h-full w-full"> {/* Contenedor para el gráfico */}
-            <Bar data={chartData} options={options} />
+            <Bar ref={chartRef} data={chartData} options={options} />
         </div>
     );
 }

@@ -2,7 +2,107 @@
 // src/pages/dashboard.astro
 import DashboardLayout from '../layouts/DashboardLayout.astro';
 import { DashboardClient } from '../components/DashboardClient.jsx';
+import { supabase } from '../db/supabase';
+
+// Obtener datos de Supabase en el servidor
+const { data: salesData, error } = await supabase.from("sales_data").select('*');
+
+// Si hay error, mostrar mensaje de error
+if (error) {
+  console.error('Error al obtener datos de Supabase:', error);
+}
+
+// Procesar datos para los gráficos
+let processedData = null;
+if (salesData && salesData.length > 0) {
+  // Procesar datos por mes
+  const salesByMonth = {};
+  const salesByCategory = {};
+  const salesBySeller = {};
+  let totalSales = 0;
+  let totalUnits = 0;
+  const products = new Set();
+
+  for (const item of salesData) {
+    // Asegurarse de que los campos existen
+    const month = item.date ? item.date.substring(0, 7) : 'Sin fecha';
+    const sales = item.sales || 0;
+    const units = item.units || 0;
+    const category = item.category || 'Sin categoría';
+    const seller = item.seller || 'Sin vendedor';
+    const product = item.product || 'Sin producto';
+
+    salesByMonth[month] = (salesByMonth[month] || 0) + sales;
+    salesByCategory[category] = (salesByCategory[category] || 0) + sales;
+    salesBySeller[seller] = (salesBySeller[seller] || 0) + sales;
+    totalSales += sales;
+    totalUnits += units;
+    products.add(product);
+  }
+
+  // Preparar datos para los gráficos
+  const monthlyLabels = Object.keys(salesByMonth).sort();
+  const monthlySales = monthlyLabels.map(m => salesByMonth[m]);
+
+  const categoryLabels = Object.keys(salesByCategory);
+  const categorySales = categoryLabels.map(k => salesByCategory[k]);
+
+  const topSellers = Object.entries(salesBySeller).sort(([, a], [, b]) => b - a).slice(0, 5);
+  const sellerLabels = topSellers.map(([s]) => s);
+  const sellerSales = topSellers.map(([, s]) => s);
+
+  processedData = {
+    monthly: { labels: monthlyLabels, data: monthlySales },
+    category: { labels: categoryLabels, data: categorySales },
+    sellers: { labels: sellerLabels, data: sellerSales },
+    summary: {
+      totalSales,
+      totalUnits,
+      averageSale: salesData.length > 0 ? Math.round(totalSales / salesData.length) : 0,
+      uniqueProducts: products.size
+    }
+  };
+}
 ---
 <DashboardLayout title="Dashboard de Ventas">
-  <DashboardClient />
+  {error ? (
+    <div class="text-red-500 text-center py-10">
+      <h1 class="text-3xl font-bold mb-4">Error al cargar datos</h1>
+      <p>Error: {error.message}</p>
+    </div>
+  ) : !salesData || salesData.length === 0 ? (
+    <div class="text-white text-center py-10">
+      <h1 class="text-3xl font-bold mb-4">Dashboard de Ventas</h1>
+      <p>No hay datos de ventas disponibles.</p>
+    </div>
+  ) : (
+    <div class="text-white">
+      <h1 class="text-3xl font-bold mb-8 text-center">Dashboard de Ventas - Datos en Tiempo Real</h1>
+      
+      {/* Resumen de estadísticas */}
+      {processedData && (
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div class="bg-dark-surface p-6 rounded-xl shadow-md border border-dark-border text-center">
+            <h3 class="text-lg font-bold mb-2">Total Ventas</h3>
+            <p class="text-2xl font-bold text-green-400">${processedData.summary.totalSales.toLocaleString()}</p>
+          </div>
+          <div class="bg-dark-surface p-6 rounded-xl shadow-md border border-dark-border text-center">
+            <h3 class="text-lg font-bold mb-2">Total Unidades</h3>
+            <p class="text-2xl font-bold text-blue-400">{processedData.summary.totalUnits}</p>
+          </div>
+          <div class="bg-dark-surface p-6 rounded-xl shadow-md border border-dark-border text-center">
+            <h3 class="text-lg font-bold mb-2">Promedio por Venta</h3>
+            <p class="text-2xl font-bold text-purple-400">${processedData.summary.averageSale}</p>
+          </div>
+          <div class="bg-dark-surface p-6 rounded-xl shadow-md border border-dark-border text-center">
+            <h3 class="text-lg font-bold mb-2">Productos Únicos</h3>
+            <p class="text-2xl font-bold text-orange-400">{processedData.summary.uniqueProducts}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Gráficos usando el DashboardClient con datos reales */}
+      <DashboardClient salesData={salesData} client:load />
+    </div>
+  )}
 </DashboardLayout>
