@@ -1,47 +1,70 @@
-# Astro Starter Kit: Minimal
+# Mi Portafolio Dev — David E. Sánchez Román
 
-```sh
-npm create astro@latest -- --template minimal
+Portafolio profesional enfocado en **Análisis de Datos** y **Desarrollo de Software**. Construido con Astro 5, React 19, Tailwind CSS 3, desplegado en Netlify con backend en Supabase.
+
+🌐 **Live:** [mi-portafolio-dev.netlify.app](https://mi-portafolio-dev.netlify.app)
+
+## Stack Tecnológico
+
+| Capa | Tecnología |
+|------|-----------|
+| Framework | Astro 5.x (SSR) |
+| UI Interactiva | React 19 |
+| Estilos | Tailwind CSS 3 (dark mode) |
+| Gráficos | Chart.js + react-chartjs-2 |
+| Base de Datos | Supabase (PostgreSQL) |
+| Hosting | Netlify (SSR adapter) |
+| Functions | Netlify Serverless |
+
+## Secciones
+
+- **Inicio** — Hero, habilidades clave
+- **Sobre Mí** — Trayectoria profesional y transición a análisis de datos
+- **Proyectos** — Dashboard analítico, Power BI, gestor de tareas full-stack
+- **Dashboard** — Visualización de datos en tiempo real (Supabase → Chart.js)
+- **Contacto** — Formulario vía Netlify Forms
+
+## Desarrollo Local
+
+```bash
+# Instalar dependencias
+npm install
+
+# Servidor de desarrollo (localhost:4321)
+npm run dev
+
+# Build de producción
+npm run build
+
+# Preview del build
+npm run preview
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+## Variables de Entorno
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Crear un archivo `.env.local` con:
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```
+SUPABASE_URL=tu_supabase_url
+SUPABASE_KEY=tu_supabase_anon_key
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Estructura del Proyecto
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```
+src/
+├── components/     # Header, Footer, DashboardClient, Charts
+├── data/           # Datos estáticos (fallback)
+├── db/             # Cliente de Supabase
+├── layouts/        # BaseLayout, DashboardLayout, ProjectsLayout
+├── pages/          # index, sobre-mi, proyectos, contacto, dashboard
+└── styles/         # Tailwind directives
+```
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Autor
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+**David E. Sánchez Román**
+- 📍 Santiago, Chile
+- 🎓 CIISA — Ingeniería en Informática
+- 🔗 [GitHub](https://github.com/davidsanchezroman) · [LinkedIn](https://linkedin.com/in/david-sanchez-roman-817022320)
+- 📧 dsanchezroman9@gmail.com

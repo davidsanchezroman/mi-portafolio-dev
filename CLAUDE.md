@@ -1,93 +1,39 @@
-# CodeViz Research Context
+# Claude / Antigravity Session Instructions
 
-> **Note**: This file contains research context from CodeViz. Most recent contexts are at the bottom.
+> **Source of truth:** See `AGENTS.md` for the full project context, coding conventions, and behavioral rules.
 
----
+## Quick Reference
 
-## Research Query
+- **Stack:** Astro 5 (SSR) + React 19 + Tailwind 3 + Supabase + Netlify
+- **Language:** Site content in Spanish; code comments in Spanish or English
+- **Dark mode:** Always on (`<html class="dark">`)
+- **Owner:** David E. Sánchez Román — transitioning to Data Analysis
 
-documenta mi proyecto
+## Session Workflow
 
-*Session: 8afd794908ae7909bb907bf784eccf68 | Generated: 7/12/2025, 6:19:54 PM*
+1. **Read `AGENTS.md`** at the start of every session for full context
+2. **Identify the task type** and activate relevant skills from `.agents/skills/`
+3. **Propose before acting** — for structural changes, create an implementation plan artifact first
+4. **Verify builds** — run `npm run build` after any structural change
+5. **Test responsive** — verify mobile (375px), tablet (768px), desktop (1280px+)
 
-### Analysis Summary
+## Critical Rules (from AGENTS.md)
 
-# Project Documentation
+- Never modify `src/db/supabase.js` without explicit approval
+- Never install dependencies without stating the reason
+- Keep content in Spanish
+- Use Tailwind theme tokens (not raw hex values)
+- Every page must have one `<h1>` and proper heading hierarchy
+- Use `data-astro-prefetch` on all internal links
 
-This document provides a high-level overview and detailed breakdown of the project's structure, core components, and configurations. The project is built using **Astro**, a modern static site builder, leveraging **Tailwind CSS** for styling.
+## Skills Available
 
-## High-Level Architecture
+Skills in `.agents/skills/` provide specialized context. Load them when needed:
 
-The project follows a typical Astro project structure, separating concerns into distinct directories for pages, layouts, components, and static assets.
-
-*   **`src/`**: Contains all the source code for the Astro application, including pages, layouts, components, and styles. This is where the main logic and content reside.
-*   **`public/`**: Stores static assets that are served directly by the web server without any processing by Astro. This includes images, fonts, and other static files.
-*   **`node_modules/`**: Contains all the project's dependencies installed via npm.
-*   **Configuration Files**: Root-level configuration files manage the build process, styling, and development environment.
-
-## Core Components
-
-### Pages
-
-The **`src/pages/`** directory contains the main routes of the website. Each `.astro` file in this directory typically corresponds to a unique URL path.
-
-*   **Home Page** [index.astro](src/pages/index.astro): The main landing page of the portfolio.
-*   **Contact Page** [contacto.astro](src/pages/contacto.astro): Provides information and a form for contacting the portfolio owner.
-*   **About Me Page** [sobre-mi.astro](src/pages/sobre-mi.astro): Details about the portfolio owner's background, skills, and experience.
-
-### Layouts
-
-The **`src/layouts/`** directory defines reusable page structures. Layouts wrap page content, providing consistent headers, footers, and overall page scaffolding.
-
-*   **Base Layout** [BaseLayout.astro](src/layouts/BaseLayout.astro): The fundamental layout used across most, if not all, pages, ensuring a consistent look and feel. It likely includes common elements like the header, footer, and meta tags.
-
-### Components
-
-The **`src/components/`** directory houses smaller, reusable UI elements that can be composed together to build pages and layouts.
-
-*   **Footer** [Footer.astro](src/components/Footer.astro): A common component for displaying copyright information, navigation links, or social media icons at the bottom of pages.
-*   **Header** [Header.astro](src/components/Header.astro): A common component for displaying the site's navigation, logo, or title at the top of pages.
-
-### Styles
-
-The **`src/styles/`** directory contains global CSS files that apply styles across the entire application.
-
-*   **Global Styles** [global.css](src/styles/global.css): Contains custom global styles that complement or override the default Tailwind CSS utility classes.
-
-## Configuration
-
-### Astro Configuration
-
-The **`astro.config.mjs`** file is the primary configuration for the Astro project. It defines integrations, build options, and other project-specific settings.
-
-*   **Configuration File** [astro.config.mjs](astro.config.mjs)
-
-### Tailwind CSS Configuration
-
-The **`tailwind.config.cjs`** file customizes the Tailwind CSS framework. It allows for extending themes, adding custom utility classes, and configuring purge paths.
-
-*   **Configuration File** [tailwind.config.cjs](tailwind.config.cjs)
-
-### TypeScript Configuration
-
-The **`tsconfig.json`** file configures the TypeScript compiler for the project, defining compilation options, file inclusions, and type checking rules.
-
-*   **Configuration File** [tsconfig.json](tsconfig.json)
-
-### Package Management
-
-The **`package.json`** file lists project metadata, scripts, and dependencies. **`package-lock.json`** ensures consistent dependency installations.
-
-*   **Project Dependencies and Scripts** [package.json](package.json)
-*   **Dependency Lock File** [package-lock.json](package.json)
-
-## Assets
-
-### Public Assets
-
-The **`public/`** directory contains static assets directly accessible via the web server.
-
-*   **Developer Image** [dev.jpg](public/dev.jpg): An image likely used to represent the developer or in a hero section.
-*   **Favicon** [favicon.svg](public/favicon.svg): The icon displayed in browser tabs and bookmarks.
-*   **Profile Picture** [FotoCVSinFondo.png](public/FotoCVSinFondo.png): A profile picture, possibly for an "About Me" section or resume.
-
+- `astro-components` — Component creation and patterns
+- `tailwind-theming` — Design system and styling
+- `supabase-integration` — Database and data fetching
+- `netlify-deploy` — Build and deployment
+- `seo-optimization` — SEO and meta tags
+- `performance-audit` — Performance optimization
+- `security` — Secrets, input validation, CSP headers, dependency auditing
