@@ -2,23 +2,28 @@
 // src/pages/dashboard.astro
 import DashboardLayout from '../layouts/DashboardLayout.astro';
 import { DashboardClient } from '../components/DashboardClient.jsx';
-import { supabase } from '../db/supabase';
 
-// Obtener datos de Supabase en el servidor
-const { data: salesData, error } = await supabase.from("sales_data").select('*');
+// Fuente de datos local para el dashboard
+import salesDataRaw from '../data/salesData.json';
 
-// Si hay error, mostrar mensaje de error
-if (error) {
-  console.error('Error al obtener datos de Supabase:', error);
+interface SaleRecord {
+  date?: string;
+  product?: string;
+  category?: string;
+  sales?: number;
+  units?: number;
+  seller?: string;
 }
+
+const salesData = salesDataRaw as SaleRecord[];
 
 // Procesar datos para los gráficos
 let processedData = null;
 if (salesData && salesData.length > 0) {
   // Procesar datos por mes
-  const salesByMonth = {};
-  const salesByCategory = {};
-  const salesBySeller = {};
+  const salesByMonth: Record<string, number> = {};
+  const salesByCategory: Record<string, number> = {};
+  const salesBySeller: Record<string, number> = {};
   let totalSales = 0;
   let totalUnits = 0;
   const products = new Set();
@@ -47,7 +52,9 @@ if (salesData && salesData.length > 0) {
   const categoryLabels = Object.keys(salesByCategory);
   const categorySales = categoryLabels.map(k => salesByCategory[k]);
 
-  const topSellers = Object.entries(salesBySeller).sort(([, a], [, b]) => b - a).slice(0, 5);
+  const topSellers = Object.entries(salesBySeller)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 5) as [string, number][];
   const sellerLabels = topSellers.map(([s]) => s);
   const sellerSales = topSellers.map(([, s]) => s);
 
@@ -65,19 +72,14 @@ if (salesData && salesData.length > 0) {
 }
 ---
 <DashboardLayout title="Dashboard de Ventas">
-  {error ? (
-    <div class="text-red-500 text-center py-10">
-      <h1 class="text-3xl font-bold mb-4">Error al cargar datos</h1>
-      <p>Error: {error.message}</p>
-    </div>
-  ) : !salesData || salesData.length === 0 ? (
+  {!salesData || salesData.length === 0 ? (
     <div class="text-white text-center py-10">
       <h1 class="text-3xl font-bold mb-4">Dashboard de Ventas</h1>
       <p>No hay datos de ventas disponibles.</p>
     </div>
   ) : (
     <div class="text-white">
-      <h1 class="text-3xl font-bold mb-8 text-center">Dashboard de Ventas - Datos en Tiempo Real</h1>
+      <h1 class="text-3xl font-bold mb-8 text-center">Dashboard de Ventas</h1>
       
       {/* Resumen de estadísticas */}
       {processedData && (
@@ -101,7 +103,7 @@ if (salesData && salesData.length > 0) {
         </div>
       )}
 
-      {/* Gráficos usando el DashboardClient con datos reales */}
+      {/* Gráficos usando el DashboardClient con datos locales */}
       <DashboardClient salesData={salesData} client:load />
     </div>
   )}
