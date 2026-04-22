@@ -4,8 +4,12 @@ import ProjectsLayout from '../layouts/ProjectsLayout.astro';
 
 <ProjectsLayout title="Mis Proyectos">
     <section>
-        <h2 class="text-xl font-bold text-accent-blue
-                            hover:text-accent-blue-dark transition-colors duration-200 p-2 text-center">Proyectos Destacados</h2>
+        <h1 class="text-4xl font-bold text-accent-blue
+                            hover:text-accent-blue-dark transition-colors duration-200 p-2 text-center">Proyectos Destacados</h1>
+
+        <p class="text-center text-dark-text-muted max-w-3xl mx-auto mt-4 mb-8 leading-relaxed">
+            Mi portafolio hoy está orientado principalmente a análisis de datos, visualización y automatización, sin perder de vista mi base en desarrollo de software.
+        </p>
 
         {/* Contenedor de las tarjetas de proyectos */}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 p-4"> {/* Ajusta el grid para las tarjetas */}
@@ -17,8 +21,13 @@ import ProjectsLayout from '../layouts/ProjectsLayout.astro';
 
                 <div class="project-card relative p-6 md:p-8 flex flex-col md:flex-row items-center md:items-start gap-6 bg-gray-900">
                     <div class="flex-1 text-white">
-                        <h3 class="text-2xl font-semibold text-accent-blue mb-2 group-hover:text-accent-blue-dark transition-colors duration-200">Proyecto 1: Dashboard Analítico</h3>
-                        <p class="text-gray-300 mb-4">Dashboard interactivo para visualizar datos de ventas, construido con React y Chart.js. Permite análisis de KPIs y tendencias.</p>
+                        <h3 class="text-2xl font-semibold text-accent-blue mb-2 group-hover:text-accent-blue-dark transition-colors duration-200">Proyecto 1: Dashboard Analítico de Ventas</h3>
+                        <p class="text-gray-300 mb-4">Dashboard de ventas para visualizar KPIs y tendencias con datos locales, enfocado en lectura clara y estable de resultados.</p>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="px-3 py-1 text-xs font-semibold bg-blue-500/20 text-blue-300 rounded-full border border-blue-500/50">React</span>
+                            <span class="px-3 py-1 text-xs font-semibold bg-red-500/20 text-red-300 rounded-full border border-red-500/50">Análisis de Datos</span>
+                            <span class="px-3 py-1 text-xs font-semibold bg-purple-500/20 text-purple-300 rounded-full border border-purple-500/50">Dashboard</span>
+                        </div>
                         {/* El enlace de texto original es reemplazado por el hover overlay */}
                     </div>
                     <div class="md:w-1/3 flex justify-center items-center">
@@ -34,8 +43,8 @@ import ProjectsLayout from '../layouts/ProjectsLayout.astro';
                 </div>
             </a>
 
-            {/* Tarjeta de Proyecto 2: Aplicación Móvil */}
-            <a href="https://example.com/mobile-app" target="_blank" rel="noopener noreferrer"
+              {/* Tarjeta de Proyecto 2: Análisis Exploratorio */}
+              <a href="/proyectos/analisis-exploratorio"
                class="group block relative overflow-hidden rounded-lg shadow-xl cursor-pointer
                       transform transition-all duration-300 ease-in-out
                       hover:-translate-y-2 hover:shadow-2xl hover:scale-[1.01]"
@@ -43,17 +52,22 @@ import ProjectsLayout from '../layouts/ProjectsLayout.astro';
 
                 <div class="project-card relative p-6 md:p-8 flex flex-col md:flex-row items-center md:items-start gap-6 bg-gray-900">
                     <div class="flex-1 text-white">
-                        <h3 class="text-2xl font-semibold text-accent-blue mb-2 group-hover:text-accent-blue-dark transition-colors duration-200">Proyecto 2: Aplicación Móvil</h3>
-                        <p class="text-gray-300 mb-4">App para gestionar tareas personales con React Native. Incluye autenticación de usuario y sincronización de datos.</p>
+                        <h3 class="text-2xl font-semibold text-accent-blue mb-2 group-hover:text-accent-blue-dark transition-colors duration-200">Proyecto 2: Análisis Exploratorio con Python y SQL</h3>
+                        <p class="text-gray-300 mb-4">Caso de estudio enfocado en limpieza, exploración y síntesis de información para descubrir patrones y oportunidades de mejora.</p>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="px-3 py-1 text-xs font-semibold bg-green-500/20 text-green-300 rounded-full border border-green-500/50">Python</span>
+                            <span class="px-3 py-1 text-xs font-semibold bg-red-500/20 text-red-300 rounded-full border border-red-500/50">SQL</span>
+                            <span class="px-3 py-1 text-xs font-semibold bg-cyan-500/20 text-cyan-300 rounded-full border border-cyan-500/50">Pandas</span>
+                        </div>
                     </div>
                     <div class="md:w-1/3 flex justify-center items-center">
-                            <img src="/dev.jpg" alt="Miniatura Aplicación Móvil"
+                            <img src="/proyecto-2-eda.svg" alt="Miniatura del Proyecto 2 de análisis exploratorio"
                              class="w-full max-w-[200px] md:max-w-full h-auto rounded-md object-cover border border-cyan-700/50
                                     transition-all duration-300 group-hover:blur-sm"/>
                     </div>
                     <div class="project-overlay absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center
                                  opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span class="text-white text-xl font-bold p-4 rounded-md border-2 border-accent-blue">Ver Proyecto</span>
+                        <span class="text-white text-xl font-bold p-4 rounded-md border-2 border-accent-blue">Ver Caso de Estudio</span>
                     </div>
                 </div>
             </a>
@@ -69,7 +83,7 @@ import ProjectsLayout from '../layouts/ProjectsLayout.astro';
                 <div class="project-card relative p-6 md:p-8 flex flex-col items-center gap-6 bg-gray-900">
                     <div class="flex-1 text-white w-full">
                         <h3 class="text-2xl font-semibold text-accent-blue mb-2 group-hover:text-accent-blue-dark transition-colors duration-200">Proyecto 3: Dashboard Power BI - Eva Final</h3>
-                        <p class="text-gray-300 mb-4">Reporte interactivo de análisis de datos con visualizaciones dinámicas en Power BI.</p>
+                        <p class="text-gray-300 mb-4">Reporte ejecutivo con visualizaciones dinámicas para apoyar el análisis y la toma de decisiones en Power BI.</p>
                     </div>
                     <div class="w-full flex justify-center items-center">
                         <iframe 
@@ -100,8 +114,8 @@ import ProjectsLayout from '../layouts/ProjectsLayout.astro';
 
                 <div class="project-card relative p-6 md:p-8 flex flex-col md:flex-row items-center md:items-start gap-6 bg-gray-900">
                     <div class="flex-1 text-white">
-                        <h3 class="text-2xl font-semibold text-accent-blue mb-2 group-hover:text-accent-blue-dark transition-colors duration-200">Proyecto 4: Gestor de Tareas Full Stack</h3>
-                        <p class="text-gray-300 mb-4">Aplicación web completa con React + Flask + PostgreSQL, containerizada con Docker. Deploy en producción con CI/CD automático. Incluye CRUD, filtros dinámicos y UI moderna.</p>
+                        <h3 class="text-2xl font-semibold text-accent-blue mb-2 group-hover:text-accent-blue-dark transition-colors duration-200">Proyecto 4: Proyecto Complementario Full Stack</h3>
+                        <p class="text-gray-300 mb-4">Aplicación web que muestra base técnica en desarrollo, útil para complementar perfiles orientados a datos con una capa sólida de software.</p>
                         {/* Stack Badges */}
                         <div class="flex flex-wrap gap-2 mb-3">
                             <span class="px-3 py-1 text-xs font-semibold bg-blue-500/20 text-blue-300 rounded-full border border-blue-500/50">React 18</span>
@@ -116,7 +130,7 @@ import ProjectsLayout from '../layouts/ProjectsLayout.astro';
                         </div>
                     </div>
                     <div class="md:w-1/3 flex justify-center items-center">
-                            <img src="/tareas-app.jpg" alt="Miniatura Gestor de Tareas"
+                            <img src="/tareas-app.jpg" alt="Miniatura Proyecto Complementario Full Stack"
                              class="w-full max-w-[200px] md:max-w-full h-auto rounded-md object-cover border border-cyan-700/50
                                     transition-all duration-300 group-hover:blur-sm"/>
                     </div>

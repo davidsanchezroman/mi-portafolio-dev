@@ -1,16 +1,23 @@
 import React from 'react';
 
 export function SimpleBarChart({ labels, data, title, color = 'bg-blue-500' }) {
-  if (!data || data.length === 0) return null;
+  if (!data || data.length === 0 || !labels || labels.length === 0) {
+    return (
+      <div className="w-full h-64 flex items-center justify-center bg-gray-800 rounded border border-dark-border">
+        <p className="text-sm text-gray-300">No hay datos para mostrar</p>
+      </div>
+    );
+  }
   
-  const maxValue = Math.max(...data);
+  const numericData = data.map((value) => Number(value) || 0);
+  const maxValue = Math.max(...numericData, 1);
   
   return (
-    <div className="w-full">
+    <div className="w-full min-h-64 p-3 bg-gray-800 rounded border border-dark-border">
       <h4 className="font-bold mb-4 text-center">{title}</h4>
       <div className="space-y-2">
         {labels.map((label, index) => {
-          const value = data[index];
+          const value = numericData[index] || 0;
           const percentage = (value / maxValue) * 100;
           
           return (
@@ -34,20 +41,27 @@ export function SimpleBarChart({ labels, data, title, color = 'bg-blue-500' }) {
 }
 
 export function SimplePieChart({ labels, data, title }) {
-  if (!data || data.length === 0) return null;
+  if (!data || data.length === 0 || !labels || labels.length === 0) {
+    return (
+      <div className="w-full h-64 flex items-center justify-center bg-gray-800 rounded border border-dark-border">
+        <p className="text-sm text-gray-300">No hay datos para mostrar</p>
+      </div>
+    );
+  }
   
-  const total = data.reduce((sum, value) => sum + value, 0);
+  const numericData = data.map((value) => Number(value) || 0);
+  const total = numericData.reduce((sum, value) => sum + value, 0) || 1;
   const colors = [
     'bg-red-500', 'bg-blue-500', 'bg-green-500', 
     'bg-yellow-500', 'bg-purple-500', 'bg-pink-500'
   ];
   
   return (
-    <div className="w-full">
+    <div className="w-full min-h-64 p-3 bg-gray-800 rounded border border-dark-border">
       <h4 className="font-bold mb-4 text-center">{title}</h4>
       <div className="space-y-2">
         {labels.map((label, index) => {
-          const value = data[index];
+          const value = numericData[index] || 0;
           const percentage = ((value / total) * 100).toFixed(1);
           
           return (

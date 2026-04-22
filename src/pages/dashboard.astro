@@ -103,8 +103,8 @@ if (salesData && salesData.length > 0) {
         </div>
       )}
 
-      {/* Gráficos usando el DashboardClient con datos locales */}
-      <DashboardClient salesData={salesData} client:load />
+      {/* Gráficos interactivos usando datos ya procesados en servidor */}
+      <DashboardClient processedData={processedData} client:only="react" />
     </div>
   )}
 </DashboardLayout>

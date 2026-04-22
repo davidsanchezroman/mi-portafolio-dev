@@ -1,0 +1,181 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import salesDataRaw from '../../data/salesData.json';
+
+interface SaleRecord {
+  date?: string;
+  product?: string;
+  category?: string;
+  sales?: number;
+  units?: number;
+  seller?: string;
+  region?: string;
+}
+
+const salesData = salesDataRaw as SaleRecord[];
+
+const totalSales = salesData.reduce((sum, item) => sum + (item.sales ?? 0), 0);
+const totalUnits = salesData.reduce((sum, item) => sum + (item.units ?? 0), 0);
+const uniqueProducts = new Set(salesData.map((item) => item.product ?? 'Sin producto')).size;
+const uniqueCategories = new Set(salesData.map((item) => item.category ?? 'Sin categoría')).size;
+
+const salesByCategory: Record<string, number> = {};
+const salesBySeller: Record<string, number> = {};
+const salesByMonth: Record<string, number> = {};
+
+for (const item of salesData) {
+  const category = item.category ?? 'Sin categoría';
+  const seller = item.seller ?? 'Sin vendedor';
+  const month = item.date ? item.date.substring(0, 7) : 'Sin fecha';
+  const sales = item.sales ?? 0;
+
+  salesByCategory[category] = (salesByCategory[category] ?? 0) + sales;
+  salesBySeller[seller] = (salesBySeller[seller] ?? 0) + sales;
+  salesByMonth[month] = (salesByMonth[month] ?? 0) + sales;
+}
+
+const topCategoryEntry = Object.entries(salesByCategory).sort(([, a], [, b]) => b - a)[0] ?? ['Sin categoría', 0];
+const topSellerEntry = Object.entries(salesBySeller).sort(([, a], [, b]) => b - a)[0] ?? ['Sin vendedor', 0];
+const bestMonthEntry = Object.entries(salesByMonth).sort(([, a], [, b]) => b - a)[0] ?? ['Sin fecha', 0];
+
+const insights = [
+  'Identificación de productos de mayor valor para priorizar inventario y foco comercial.',
+  'Segmentación por categorías y vendedores para entender qué combina mejor con la demanda.',
+  'Resumen ejecutivo pensado para convertir datos operativos en decisiones concretas.'
+];
+
+const notebookGithubUrl = 'https://github.com/davidsanchezroman/mi-portafolio-dev/blob/master/docs/notebooks/proyecto-2-analisis-exploratorio.ipynb';
+const notebookDownloadUrl = '/evidencias/proyecto-2-analisis-exploratorio.ipynb';
+const datasetUrl = '/evidencias/salesData.json';
+---
+
+<BaseLayout title="Proyecto 2: Análisis Exploratorio - David Sánchez Román">
+  <section class="py-12 px-6 md:px-8 lg:px-10 bg-dark-surface rounded-lg shadow-xl mb-10 border border-dark-border">
+    <div class="max-w-5xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-extrabold text-accent-blue mb-4 text-center">
+        Proyecto 2: Análisis Exploratorio de Ventas
+      </h1>
+      <p class="text-lg text-dark-text-muted leading-relaxed text-center max-w-3xl mx-auto">
+        Caso de estudio orientado a descubrir patrones de venta, entender el comportamiento de los datos y generar conclusiones útiles para el negocio usando Python, SQL y visualización.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+        <article class="bg-dark-background p-6 rounded-lg border border-dark-border text-center shadow-md">
+          <p class="text-sm text-dark-text-muted mb-2">Ventas totales</p>
+          <p class="text-2xl font-bold text-green-400">${totalSales.toLocaleString('es-CL')}</p>
+        </article>
+        <article class="bg-dark-background p-6 rounded-lg border border-dark-border text-center shadow-md">
+          <p class="text-sm text-dark-text-muted mb-2">Unidades vendidas</p>
+          <p class="text-2xl font-bold text-blue-400">{totalUnits}</p>
+        </article>
+        <article class="bg-dark-background p-6 rounded-lg border border-dark-border text-center shadow-md">
+          <p class="text-sm text-dark-text-muted mb-2">Productos únicos</p>
+          <p class="text-2xl font-bold text-purple-400">{uniqueProducts}</p>
+        </article>
+        <article class="bg-dark-background p-6 rounded-lg border border-dark-border text-center shadow-md">
+          <p class="text-sm text-dark-text-muted mb-2">Categorías analizadas</p>
+          <p class="text-2xl font-bold text-orange-400">{uniqueCategories}</p>
+        </article>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10">
+        <section class="bg-dark-background p-6 md:p-8 rounded-lg border border-dark-border shadow-md">
+          <h2 class="text-2xl font-bold text-dark-text mb-4">Objetivo del proyecto</h2>
+          <p class="text-dark-text-muted leading-relaxed">
+            El objetivo fue tomar un conjunto de ventas simple y convertirlo en una lectura accionable: qué productos venden más, qué categorías impulsan los ingresos y qué meses concentran mejores resultados.
+          </p>
+        </section>
+
+        <section class="bg-dark-background p-6 md:p-8 rounded-lg border border-dark-border shadow-md">
+          <h2 class="text-2xl font-bold text-dark-text mb-4">Herramientas y enfoque</h2>
+          <ul class="space-y-3 text-dark-text-muted leading-relaxed list-disc list-inside">
+            <li>Python para limpieza, validación y cálculo de indicadores.</li>
+            <li>SQL para pensar la estructura de los datos y su consulta.</li>
+            <li>Power BI y gráficos para comunicar hallazgos de forma visual.</li>
+            <li>Enfoque en métricas simples, claras y orientadas al negocio.</li>
+          </ul>
+        </section>
+      </div>
+
+      <section class="mt-10 bg-dark-background p-6 md:p-8 rounded-lg border border-dark-border shadow-md">
+        <h2 class="text-2xl font-bold text-dark-text mb-4">Hallazgos principales</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <article class="bg-dark-surface p-5 rounded-lg border border-dark-border">
+            <h3 class="text-lg font-semibold text-accent-blue mb-2">Categoría líder</h3>
+            <p class="text-dark-text-muted">{topCategoryEntry[0]} concentra <strong class="text-dark-text">${topCategoryEntry[1].toLocaleString('es-CL')}</strong> en ventas.</p>
+          </article>
+          <article class="bg-dark-surface p-5 rounded-lg border border-dark-border">
+            <h3 class="text-lg font-semibold text-accent-blue mb-2">Vendedor destacado</h3>
+            <p class="text-dark-text-muted">{topSellerEntry[0]} lidera el periodo con <strong class="text-dark-text">${topSellerEntry[1].toLocaleString('es-CL')}</strong>.</p>
+          </article>
+          <article class="bg-dark-surface p-5 rounded-lg border border-dark-border">
+            <h3 class="text-lg font-semibold text-accent-blue mb-2">Mejor mes</h3>
+            <p class="text-dark-text-muted">{bestMonthEntry[0]} fue el mes más fuerte con <strong class="text-dark-text">${bestMonthEntry[1].toLocaleString('es-CL')}</strong>.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <article class="bg-dark-background p-6 md:p-8 rounded-lg border border-dark-border shadow-md">
+          <h2 class="text-2xl font-bold text-dark-text mb-4">Qué demuestra este proyecto</h2>
+          <ul class="space-y-3 text-dark-text-muted leading-relaxed list-disc list-inside">
+            {insights.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </article>
+
+        <article class="bg-dark-background p-6 md:p-8 rounded-lg border border-dark-border shadow-md">
+          <h2 class="text-2xl font-bold text-dark-text mb-4">Resultado esperado</h2>
+          <p class="text-dark-text-muted leading-relaxed mb-4">
+            Este proyecto funciona como una pieza de portafolio para demostrar capacidad de análisis, síntesis y comunicación visual. Está pensado para que un reclutador entienda rápido qué problema se abordó y qué valor aporta mi enfoque.
+          </p>
+          <p class="text-dark-text-muted leading-relaxed">
+            En conjunto con el dashboard y los demás proyectos, completa un set más alineado con mi transición hacia análisis de datos.
+          </p>
+        </article>
+      </section>
+
+      <section class="mt-10 bg-dark-background p-6 md:p-8 rounded-lg border border-dark-border shadow-md">
+        <h2 class="text-2xl font-bold text-dark-text mb-4">Evidencia técnica</h2>
+        <p class="text-dark-text-muted leading-relaxed mb-6">
+          Para revisión técnica, este proyecto incluye el notebook completo del análisis y el dataset utilizado. Así puedes verificar el proceso de punta a punta.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <a
+            href={notebookGithubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block bg-accent-blue hover:bg-accent-blue-dark text-white font-bold py-3 px-4 rounded-full text-center transition-colors duration-300 transform hover:scale-105"
+          >
+            Ver notebook en GitHub
+          </a>
+          <a
+            href={notebookDownloadUrl}
+            download
+            class="inline-block bg-dark-surface hover:bg-dark-background text-white font-bold py-3 px-4 rounded-full text-center transition-colors duration-300 transform hover:scale-105 border border-dark-border"
+          >
+            Descargar notebook
+          </a>
+          <a
+            href={datasetUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block bg-dark-surface hover:bg-dark-background text-white font-bold py-3 px-4 rounded-full text-center transition-colors duration-300 transform hover:scale-105 border border-dark-border"
+          >
+            Ver dataset
+          </a>
+        </div>
+      </section>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mt-10">
+        <a href="/dashboard" data-astro-prefetch class="inline-block bg-accent-blue hover:bg-accent-blue-dark text-white font-bold py-3 px-6 rounded-full text-lg transition-colors duration-300 transform hover:scale-105 text-center">
+          Ver dashboard relacionado
+        </a>
+        <a href="/proyectos" data-astro-prefetch class="inline-block bg-dark-background hover:bg-dark-surface text-white font-bold py-3 px-6 rounded-full text-lg transition-colors duration-300 transform hover:scale-105 text-center border border-dark-border">
+          Volver a proyectos
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

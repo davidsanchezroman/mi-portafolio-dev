@@ -1,0 +1,39 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="800" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1A1A2E"/>
+      <stop offset="1" stop-color="#252540"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="160" y1="120" x2="1040" y2="680" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#252540"/>
+      <stop offset="1" stop-color="#1E1E36"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect x="120" y="90" width="960" height="620" rx="24" fill="url(#panel)" stroke="#3C3C5C" stroke-width="4"/>
+
+  <text x="170" y="170" fill="#E0E0E0" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="700">Proyecto 2</text>
+  <text x="170" y="220" fill="#00ADB5" font-family="Inter, Arial, sans-serif" font-size="54" font-weight="800">Analisis Exploratorio</text>
+  <text x="170" y="270" fill="#B0B0B0" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="500">Python · SQL · Pandas · Visualizacion</text>
+
+  <rect x="170" y="330" width="420" height="300" rx="18" fill="#1A1A2E" stroke="#3C3C5C" stroke-width="3"/>
+  <text x="200" y="375" fill="#E0E0E0" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="600">Ventas por categoria</text>
+
+  <rect x="210" y="560" width="70" height="40" rx="6" fill="#00ADB5"/>
+  <rect x="300" y="500" width="70" height="100" rx="6" fill="#00ADB5"/>
+  <rect x="390" y="450" width="70" height="150" rx="6" fill="#00ADB5"/>
+  <rect x="480" y="400" width="70" height="200" rx="6" fill="#007A80"/>
+
+  <rect x="630" y="330" width="410" height="180" rx="18" fill="#1A1A2E" stroke="#3C3C5C" stroke-width="3"/>
+  <text x="660" y="380" fill="#E0E0E0" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="600">Hallazgos clave</text>
+  <circle cx="665" cy="422" r="6" fill="#00ADB5"/>
+  <text x="685" y="430" fill="#B0B0B0" font-family="Inter, Arial, sans-serif" font-size="22">Categoria lider identificada</text>
+  <circle cx="665" cy="457" r="6" fill="#00ADB5"/>
+  <text x="685" y="465" fill="#B0B0B0" font-family="Inter, Arial, sans-serif" font-size="22">Mejor vendedor del periodo</text>
+  <circle cx="665" cy="492" r="6" fill="#00ADB5"/>
+  <text x="685" y="500" fill="#B0B0B0" font-family="Inter, Arial, sans-serif" font-size="22">Tendencia mensual de ventas</text>
+
+  <rect x="630" y="540" width="410" height="90" rx="16" fill="#1A1A2E" stroke="#3C3C5C" stroke-width="3"/>
+  <text x="660" y="596" fill="#00ADB5" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="700">Evidencia tecnica disponible</text>
+</svg>
